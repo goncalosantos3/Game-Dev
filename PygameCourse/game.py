@@ -21,6 +21,42 @@ mixer.music.load("sounds/background.wav")
 mixer.music.play(-1)
 
 
+# Load Button images
+start_img = pygame.image.load("img/start.png").convert_alpha()
+exit_img = pygame.image.load("img/exit.png").convert_alpha()
+
+# Button class
+class Button():
+    def __init__(self, x, y, image, scale):
+        width = image.get_width()
+        height = image.get_height()
+        self.image = pygame.transform.scale(image, (int (width * scale), int (height * scale)))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x,y)
+        self.clicked = False
+    
+    def draw(self):
+        action = False
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+
+        # check mouseover and clicked conditions
+        if self.rect.collidepoint(pos): 
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False: # Left mouse button has clicked the button
+                self.clicked = True
+                action = True
+            
+            if pygame.mouse.get_pressed()[0] == 0:
+                self.clicked = False
+
+        # draw button on screen
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+        return action
+
+# Create button instances
+start_button = Button(300,250,start_img,0.7)
+exit_button = Button(315,350,exit_img,0.7)
+
 # Player
 player_img = pygame.image.load("img/space-invaders.png")
 playerX = 370
@@ -83,9 +119,14 @@ def show_score(x,y):
 # Game Over font
 game_over_font = pygame.font.Font ('freesansbold.ttf', 64)
 
-def gameOver():
-    game_over_text = game_over_font.render("GAME OVER" + str(score_value), True, (255, 255, 255))
-    screen.blit(game_over_text, (200, 250))
+def gameOver(run_game):
+    game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
+    screen.blit(game_over_text, (200, 150))
+    if start_button.draw():
+        
+    if exit_button.draw():
+        print('EXIT')
+        run_game = False
 
 
 run_game =  True
@@ -125,10 +166,10 @@ while run_game:
     for i in range(num_of_enemies):
 
         # Game Over
-        if enemyY[i] > 440:
+        if enemyY[i] > 200:
             for j in range(num_of_enemies):
                 enemyY[j] = 2000
-            gameOver()
+            gameOver(run_game)
             break
 
         # Bounderies of the enemies
