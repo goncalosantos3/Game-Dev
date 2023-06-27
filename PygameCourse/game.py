@@ -119,14 +119,14 @@ def show_score(x,y):
 # Game Over font
 game_over_font = pygame.font.Font ('freesansbold.ttf', 64)
 
-def gameOver(run_game):
-    game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
-    screen.blit(game_over_text, (200, 150))
-    if start_button.draw():
-        
-    if exit_button.draw():
-        print('EXIT')
-        run_game = False
+# def gameOver(run_game):
+#     game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
+#     screen.blit(game_over_text, (200, 150))
+#     if start_button.draw():
+#         
+#     if exit_button.draw():
+#         print('EXIT')
+#         run_game = False
 
 
 run_game =  True
