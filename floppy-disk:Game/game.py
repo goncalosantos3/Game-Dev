@@ -1,4 +1,5 @@
 import pygame
+import random
 import math
 
 # Inicia o jogo
@@ -19,13 +20,13 @@ bgImg = pygame.transform.scale(bgImg, (800,600))
 
 # Pipes
 pipeBImg = pygame.image.load('img/pipe_baixo.png')
-pipeBImg = pygame.transform.scale(pipeBImg, (100, 400))
+pipeBImg = pygame.transform.scale(pipeBImg, (100, 500))
 
 pipeCImg = pygame.image.load('img/pipe_cima.png')
-pipeCImg = pygame.transform.scale(pipeCImg, (100, 400))
+pipeCImg = pygame.transform.scale(pipeCImg, (100, 500))
 
 # Lista de posições de 3 conjuntos de pipes
-pipesPos = [(800, 300), (1100, 200), (1300, 400)]
+pipesPos = [(800, random.randint(200,500)), (1100, random.randint(200,500)), (1300, random.randint(200,500))]
 
 # Jogador
 img = pygame.image.load('img/floppy-disk.png')
@@ -40,19 +41,19 @@ def player(img, x, y):
 def pipes(l):
     for pipe in l:
         x, y = pipe
-        screen.blit(pipeBImg, (x, y+100))
-        screen.blit(pipeCImg, (x, y-400))
+        screen.blit(pipeBImg, (x, y+50))
+        screen.blit(pipeCImg, (x, y-550))
 
-def is_collision(x1, y1, l):
+def is_collision(x1, y1, l): 
 
     for pipe in l:
         x2, y2 = pipe
-        distance = math.sqrt(math.pow(x2-x1,2) + math.pow(y2-y1,2))
         
-        # Houve colisão
-        if distance < 27:
+        dist_x = abs(x1 - x2) 
+
+        if dist_x < 50 and (y1 < y2 - 25 or y1 > y2 + 25):
             return True
-    
+            
     return False
 
 
@@ -86,6 +87,7 @@ while running:
     collison = is_collision(playerX, playerY, pipesPos)
     if collison:
         running = False
+
     player(playerImg, playerX, playerY)
     pipes(pipesPos)
 
